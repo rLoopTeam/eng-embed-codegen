@@ -36,7 +36,8 @@ with open("../templates/test.yaml", 'r') as stream:
     except yaml.YAMLError as exc:
         print(exc)
         exit(1)
-        
+
+
 class CStructTemplate:
    
     def __init__(self):
@@ -48,16 +49,21 @@ class CStructTemplate:
         self.children = []  # substructures
         
     def __str__(self):
+        return self.str()
+    
+    def str(self, level=0):
+        indent_prefix = "    "
+        indent = indent_prefix * level
         s = []
-        s.append("Name: " + self.name)
-        s.append("Desc: " + self.desc)
-        s.append("Typename: " + str(self.typename))
-        s.append("Elements:")
+        s.append("{}Name: {}".format(indent, self.name))
+        s.append("{}Desc: {}".format(indent, self.desc))
+        s.append("{}Typename: {}".format(indent, str(self.typename)))
+        s.append("{}Elements:".format(indent))
         for element in self.elements:
-            s.append("  {}".format(element))
-        s.append("Children:")
+            s.append("{}".format(element.str(level + 1)))
+        s.append("{}Children:".format(indent))
         for child in self.children:
-            s.append("  {}".format(child))
+            s.append("{}".format(child.str(level + 1)))
         return "\n".join(s)
     
 class CVarTemplate:
@@ -67,7 +73,13 @@ class CVarTemplate:
         self.type = type
 
     def __str__(self):
-        return "(name: {}; type: {}, desc: {})".format(self.name, self.type, self.desc)
+        return self.str()
+
+    def str(self, level=0):
+        indent_prefix = "    "
+        indent = indent_prefix * level
+        return "{}(name: {}; type: {}, desc: {})".format(indent, self.name, self.type, self.desc)
+        
 
 def is_dict(value):
     return isinstance(value, (dict, OrderedDict))
