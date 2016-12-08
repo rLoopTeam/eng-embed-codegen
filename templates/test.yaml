@@ -1,0 +1,35 @@
+
+
+
+structs:
+    strTEST:
+      desc: test structure
+      typename: E_STR_TEST
+      sBrakes:
+        desc: "Brakes substructure"
+        u32Guard1: 
+        - "Structure guard 1"
+        - Luint32
+    
+    _strFCU:
+      desc: main flight control structure
+      typename: E_FCU_MAIN_STRUCT
+      sBrakes:
+        desc: "Brakes substructure"
+        u32Guard1: 
+        - "Structure guard 1"
+        - Luint32
+        eRunState: 
+        - "The main state machine for run mode"
+        - E_FCU__RUN_STATE_T
+        eInitState: 
+        - "The init statemachine"
+        - E_FCU__INIT_STATE_TYPES
+        sFaults:
+          desc: substruct
+          sTopLevel: 
+          - "top level fault tree subsystem for the flight controller"
+          - FAULT_TREE__PUBLIC_T
+          sAccel:
+          - Accel subsystem faults
+          - FAULT_TREE__PUBLIC_T
